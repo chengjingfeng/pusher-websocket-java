@@ -11,7 +11,7 @@ public class EventMetadata {
 
     /**
      * EventMetadata constructor that takes a hashmap.
-     * @param metadata hashmap<string, string>
+     * @param metadata hashmap(string, string)
      */
     public EventMetadata(Map<String, String> metadata) {
         this.metadata = metadata;
