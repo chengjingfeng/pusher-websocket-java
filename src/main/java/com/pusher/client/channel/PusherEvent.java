@@ -3,8 +3,9 @@ package com.pusher.client.channel;
 import java.util.Map;
 
 /**
- * PusherEvent stores eventData additional data concerning an event. This data
- * is not essential to using Channels, but may be useful for your service.
+ * PusherEvent stores all data concerning an event. This data
+ * includes things that are not essential to using Channels,
+ * but may be useful for your service.
  */
     public class PusherEvent {
     private Map<String, String> eventData;
@@ -27,7 +28,7 @@ import java.util.Map;
 
 
     /**
-     * returns the userId associated with this events eventData.
+     * returns the userId associated with this event.
      * This is a helper method intended to help with discovery as to which
      * attributes are available in the eventData object.
      * @return the userID string, or null.
