@@ -7,7 +7,7 @@ import java.util.Map;
  * includes things that are not essential to using Channels,
  * but may be useful for your service.
  */
-    public class PusherEvent {
+public class PusherEvent {
     private Map<String, String> eventData;
 
     /**
