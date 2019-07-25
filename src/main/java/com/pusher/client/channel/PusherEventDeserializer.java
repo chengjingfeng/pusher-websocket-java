@@ -14,7 +14,9 @@ public class PusherEventDeserializer implements JsonDeserializer<PusherEvent> {
         JsonObject jsonObject = json.getAsJsonObject();
         Set jsonEntrySet = jsonObject.entrySet();
         for (Object key : jsonEntrySet) {
+            System.out.println("FOR loop is running");
             eventData.put(key.toString(), jsonObject.get(key.toString()));
+            System.out.println("****Key: " + key.toString() + " ***** " + jsonObject.get(key.toString()));
         }
         return new PusherEvent(eventData);
     }
