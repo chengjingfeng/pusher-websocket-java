@@ -115,131 +115,135 @@ public class ChannelImplTest {
         assertEquals("event1", argCaptor.getValue().getEventName());
         assertEquals("{\"fish\":\"chips\"}", argCaptor.getValue().getData());
     }
-//    @Test
-//    public void testDataIsExtractedFromMessageAndPassedToMultipleListeners() {
-//        final ChannelEventListener mockListener2 = getEventListener();
-//
-//        channel.bind(EVENT_NAME, mockListener);
-//        channel.bind(EVENT_NAME, mockListener2);
-//        channel.onMessage(EVENT_NAME, "{\"event\":\"event1\",\"data\":\"{\\\"fish\\\":\\\"chips\\\"}\"}");
-//
-//        verify(mockListener).onEvent(eq(getChannelName()), eq(EVENT_NAME), eq("{\"fish\":\"chips\"}"), any(PusherEvent.class));
-//        verify(mockListener2).onEvent(eq(getChannelName()), eq(EVENT_NAME), eq("{\"fish\":\"chips\"}"), any(PusherEvent.class));
-//    }
-//
-//    @Test
-//    public void testEventIsNotPassedOnIfThereAreNoMatchingListeners() {
-//
-//        channel.bind(EVENT_NAME, mockListener);
-//        channel.onMessage("DifferentEventName", "{\"event\":\"event1\",\"data\":{\"fish\":\"chips\"}}");
-//
-//        verify(mockListener, never()).onEvent(any(PusherEvent.class));
-//    }
-//
-//    @Test
-//    public void testEventIsNotPassedOnIfListenerHasUnboundFromEvent() {
-//
-//        channel.bind(EVENT_NAME, mockListener);
-//        channel.unbind(EVENT_NAME, mockListener);
-//        channel.onMessage(EVENT_NAME, "{\"event\":\"event1\",\"data\":\"{\\\"fish\\\":\\\"chips\\\"}\"}");
-//
-//        verify(mockListener, never()).onEvent(anyString(), anyString(), anyString(), any(PusherEvent.class));
-//    }
-//
-//    @Test(expected = IllegalArgumentException.class)
-//    public void testBindWithNullEventNameThrowsException() {
-//        channel.bind(null, mockListener);
-//    }
-//
-//    @Test(expected = IllegalArgumentException.class)
-//    public void testBindWithNullListenerThrowsException() {
-//        channel.bind(EVENT_NAME, null);
-//    }
-//
-//    @Test(expected = IllegalArgumentException.class)
-//    public void testBindToInternalEventThrowsException() {
-//        channel.bind("pusher_internal:subscription_succeeded", mockListener);
-//    }
-//
-//    @Test(expected = IllegalArgumentException.class)
-//    public void testUnbindWithNullEventNameThrowsException() {
-//        channel.bind(EVENT_NAME, mockListener);
-//        channel.unbind(null, mockListener);
-//    }
-//
-//    @Test(expected = IllegalArgumentException.class)
-//    public void testUnbindWithNullListenerThrowsException() {
-//        channel.bind(EVENT_NAME, null);
-//        channel.unbind(EVENT_NAME, null);
-//    }
-//
-//    @Test
-//    public void testUnbindWhenListenerIsNotBoundToEventIsIgnoredAndDoesNotThrowException() {
-//        channel.bind(EVENT_NAME, mockListener);
-//        channel.unbind("different event name", mockListener);
-//    }
-//
-//    @Test
-//    public void testUpdateStateToSubscribeSentDoesNotNotifyListenerThatSubscriptionSucceeded() {
-//        channel.bind(EVENT_NAME, mockListener);
-//        channel.updateState(ChannelState.SUBSCRIBE_SENT);
-//
-//        verify(mockListener, never()).onSubscriptionSucceeded(getChannelName());
-//    }
-//
-//    @Test
-//    public void testUpdateStateToSubscribedNotifiesListenerThatSubscriptionSucceeded() {
-//        channel.bind(EVENT_NAME, mockListener);
-//        channel.updateState(ChannelState.SUBSCRIBE_SENT);
-//        channel.updateState(ChannelState.SUBSCRIBED);
-//
-//        verify(mockListener).onSubscriptionSucceeded(getChannelName());
-//    }
-//
-//    @Test(expected = IllegalStateException.class)
-//    public void testBindWhenInUnsubscribedStateThrowsException() {
-//        channel.updateState(ChannelState.UNSUBSCRIBED);
-//        channel.bind(EVENT_NAME, mockListener);
-//    }
-//
-//    @Test(expected = IllegalStateException.class)
-//    public void testUnbindWhenInUnsubscribedStateThrowsException() {
-//        channel.bind(EVENT_NAME, mockListener);
-//        channel.updateState(ChannelState.UNSUBSCRIBED);
-//        channel.unbind(EVENT_NAME, mockListener);
-//    }
-//    @Test
-//    public void testMetaDataIsExtractedFromMessageAndPassedToSingleListener() {
-//        final ArgumentCaptor<PusherEvent> argument = ArgumentCaptor.forClass(PusherEvent.class);
-//
-//        final String eventName = "client-my-event";
-//        ChannelEventListener mockListener = getEventListener();
-//
-//        channel = newInstance(getChannelName());
-//        channel.bind(eventName, mockListener);
-//        channel.onMessage(eventName, "{\"event\":\"client-my-event\",\"data\":\"{\\\"fish\\\":\\\"chips\\\"}\",\"metadata-key\":\"42\"}");
-//
-//        verify(mockListener).onEvent(eq(getChannelName()), eq(eventName), eq("{\"fish\":\"chips\"}"), argument.capture());
-//        assertEquals("42", argument.getValue().getProperty("metadata-key"));
-//    }
-//
-//    @Test
-//    public void testUserIdIsExtractedFromMessageAndPassedToSingleListenerWithHelperMethod() {
-//        final ArgumentCaptor<PusherEvent> argument = ArgumentCaptor.forClass(PusherEvent.class);
-//
-//        final String eventName = "client-my-event";
-//        ChannelEventListener mockListener = getEventListener();
-//
-//        channel = newInstance(getChannelName());
-//        channel.bind(eventName, mockListener);
-//        channel.onMessage(eventName, "{\"event\":\"client-my-event\",\"data\":\"{\\\"fish\\\":\\\"chips\\\"}\",\"user_id\":\"Kuzya\"}");
-//
-//        verify(mockListener).onEvent(eq(getChannelName()), eq(eventName), eq("{\"fish\":\"chips\"}"), argument.capture());
-//        assertEquals("Kuzya", argument.getValue().getUserId());
-//    }
-//
-//
-//    /* end of tests */
+    @Test
+    public void testDataIsExtractedFromMessageAndPassedToMultipleListeners() {
+        final ChannelEventListener mockListener2 = getEventListener();
+
+        channel.bind(EVENT_NAME, mockListener);
+        channel.bind(EVENT_NAME, mockListener2);
+        channel.onMessage(EVENT_NAME, "{\"event\":\"event1\",\"data\":\"{\\\"fish\\\":\\\"chips\\\"}\"}");
+
+        verify(mockListener).onEvent(argCaptor.capture());
+        assertEquals("event1", argCaptor.getValue().getEventName());
+        assertEquals("{\"fish\":\"chips\"}", argCaptor.getValue().getData());
+
+        verify(mockListener2).onEvent(argCaptor.capture());
+        assertEquals("event1", argCaptor.getValue().getEventName());
+        assertEquals("{\"fish\":\"chips\"}", argCaptor.getValue().getData());
+    }
+
+    @Test
+    public void testEventIsNotPassedOnIfThereAreNoMatchingListeners() {
+
+        channel.bind(EVENT_NAME, mockListener);
+        channel.onMessage("DifferentEventName", "{\"event\":\"event1\",\"data\":{\"fish\":\"chips\"}}");
+
+        verify(mockListener, never()).onEvent(any(PusherEvent.class));
+    }
+
+    @Test
+    public void testEventIsNotPassedOnIfListenerHasUnboundFromEvent() {
+
+        channel.bind(EVENT_NAME, mockListener);
+        channel.unbind(EVENT_NAME, mockListener);
+        channel.onMessage(EVENT_NAME, "{\"event\":\"event1\",\"data\":\"{\\\"fish\\\":\\\"chips\\\"}\"}");
+
+        verify(mockListener, never()).onEvent(any(PusherEvent.class));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBindWithNullEventNameThrowsException() {
+        channel.bind(null, mockListener);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBindWithNullListenerThrowsException() {
+        channel.bind(EVENT_NAME, null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBindToInternalEventThrowsException() {
+        channel.bind("pusher_internal:subscription_succeeded", mockListener);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testUnbindWithNullEventNameThrowsException() {
+        channel.bind(EVENT_NAME, mockListener);
+        channel.unbind(null, mockListener);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testUnbindWithNullListenerThrowsException() {
+        channel.bind(EVENT_NAME, null);
+        channel.unbind(EVENT_NAME, null);
+    }
+
+    @Test
+    public void testUnbindWhenListenerIsNotBoundToEventIsIgnoredAndDoesNotThrowException() {
+        channel.bind(EVENT_NAME, mockListener);
+        channel.unbind("different event name", mockListener);
+    }
+
+    @Test
+    public void testUpdateStateToSubscribeSentDoesNotNotifyListenerThatSubscriptionSucceeded() {
+        channel.bind(EVENT_NAME, mockListener);
+        channel.updateState(ChannelState.SUBSCRIBE_SENT);
+
+        verify(mockListener, never()).onSubscriptionSucceeded(getChannelName());
+    }
+
+    @Test
+    public void testUpdateStateToSubscribedNotifiesListenerThatSubscriptionSucceeded() {
+        channel.bind(EVENT_NAME, mockListener);
+        channel.updateState(ChannelState.SUBSCRIBE_SENT);
+        channel.updateState(ChannelState.SUBSCRIBED);
+
+        verify(mockListener).onSubscriptionSucceeded(getChannelName());
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testBindWhenInUnsubscribedStateThrowsException() {
+        channel.updateState(ChannelState.UNSUBSCRIBED);
+        channel.bind(EVENT_NAME, mockListener);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testUnbindWhenInUnsubscribedStateThrowsException() {
+        channel.bind(EVENT_NAME, mockListener);
+        channel.updateState(ChannelState.UNSUBSCRIBED);
+        channel.unbind(EVENT_NAME, mockListener);
+    }
+    @Test
+    public void testMetaDataIsExtractedFromMessageAndPassedToSingleListener() {
+
+        final String eventName = "client-my-event";
+        ChannelEventListener mockListener = getEventListener();
+
+        channel = newInstance(getChannelName());
+        channel.bind(eventName, mockListener);
+        channel.onMessage(eventName, "{\"event\":\"client-my-event\",\"data\":\"{\\\"fish\\\":\\\"chips\\\"}\",\"metadata-key\":\"42\"}");
+
+        verify(mockListener).onEvent(argCaptor.capture());
+        assertEquals("42", argCaptor.getValue().getProperty("metadata-key"));
+        assertEquals("{\"fish\":\"chips\"}", argCaptor.getValue().getData());
+    }
+
+    @Test
+    public void testUserIdIsExtractedFromMessageAndPassedToSingleListenerWithHelperMethod() {
+
+        final String eventName = "client-my-event";
+        ChannelEventListener mockListener = getEventListener();
+
+        channel = newInstance(getChannelName());
+        channel.bind(eventName, mockListener);
+        channel.onMessage(eventName, "{\"event\":\"client-my-event\",\"data\":\"{\\\"fish\\\":\\\"chips\\\"}\",\"user_id\":\"Kuzya\"}");
+
+        verify(mockListener).onEvent(argCaptor.capture());
+        assertEquals("Kuzya", argCaptor.getValue().getUserId());
+    }
+
+
+    /* end of tests */
 
     /**
      * This method is overridden in the test subclasses so that these tests can
