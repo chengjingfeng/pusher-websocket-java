@@ -122,10 +122,6 @@ public class ChannelImpl implements InternalChannel {
         }
     }
 
-    private Map<String, String> getMetaData(String message) {
-        final Map<String, String> metadata = GSON.fromJson(message, HashMap.class);
-        return metadata;
-    }
 
     @Override
     public String toSubscribeMessage() {
@@ -164,7 +160,6 @@ public class ChannelImpl implements InternalChannel {
                 @Override
                 public void run() {
                     eventListener.onSubscriptionSucceeded(ChannelImpl.this.getName());
-                    System.out.println("Подписался!");
                 }
             });
         }

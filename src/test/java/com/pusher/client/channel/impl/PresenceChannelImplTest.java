@@ -185,14 +185,14 @@ public class PresenceChannelImplTest extends PrivateChannelImplTest {
         channel.bind("private-myEvent", listener);
     }
 
-//    @Test
-//    @Override
-//    public void testUpdateStateToSubscribedNotifiesListenerThatSubscriptionSucceeded() {
-//        channel.updateState(ChannelState.SUBSCRIBE_SENT);
-//        channel.updateState(ChannelState.SUBSCRIBED);
-//
-//        verify(mockEventListener).onSubscriptionSucceeded(getChannelName());
-//    }
+    @Test
+    @Override
+    public void testUpdateStateToSubscribedNotifiesListenerThatSubscriptionSucceeded() {
+        channel.updateState(ChannelState.SUBSCRIBE_SENT);
+        channel.updateState(ChannelState.SUBSCRIBED);
+
+        verify(mockEventListener).onSubscriptionSucceeded(getChannelName());
+    }
 
     @Override
     @Test(expected = IllegalArgumentException.class)
