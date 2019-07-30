@@ -164,6 +164,7 @@ public class ChannelImpl implements InternalChannel {
                 @Override
                 public void run() {
                     eventListener.onSubscriptionSucceeded(ChannelImpl.this.getName());
+                    System.out.println("Подписался!");
                 }
             });
         }

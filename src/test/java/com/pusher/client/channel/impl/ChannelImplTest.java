@@ -192,13 +192,18 @@ public class ChannelImplTest {
         verify(mockListener, never()).onSubscriptionSucceeded(getChannelName());
     }
 
+
+    @Mock ChannelEventListener testListener;
     @Test
     public void testUpdateStateToSubscribedNotifiesListenerThatSubscriptionSucceeded() {
-        channel.bind(EVENT_NAME, mockListener);
+        channel.bind(EVENT_NAME, testListener);
         channel.updateState(ChannelState.SUBSCRIBE_SENT);
+        System.out.print("******\n");
         channel.updateState(ChannelState.SUBSCRIBED);
+        System.out.print("******\n");
+//        assertEquals(true, channel.isSubscribed());
 
-        verify(mockListener).onSubscriptionSucceeded(getChannelName());
+        verify(testListener, atLeastOnce()).onSubscriptionSucceeded(getChannelName());
     }
 
     @Test(expected = IllegalStateException.class)
